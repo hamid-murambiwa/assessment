@@ -108,3 +108,30 @@ console.info('Your application must have the following output:\n');
 console.info('* Terry Cats - Chief Creative Officer: Executive\n\t* Nick Thompson - Head of Design: Operations\n\t\t * Nick Jenson - Intern designer: Interns\n* Bruce Davids - Chief Strategy Officer: Executive\n\t* David Smith - Head of Development: Operations\n\t* John Jones - Head of Marketing: Operations\n\t* Jane Sampson - Head of Content: Operations\n\t* Simon Says - Head of Strategy: Operations\n* Bill Bass - Chief Executive Officer: Executive');
 
 // Start your code here but please comment out the above logs
+const headMembers = staffMembers.filter(e => e.reportsTo === '');
+
+let resHeadMembers = [];
+let result = ``;
+
+headMembers.map(e => {
+    const category = categories.find(c => c.slug === e.category);
+    if (result.length === 0) {
+    result += `* ${e.name} ${e.surname} - ${e.title}: ${category.name}`;
+    } else {
+        result += `\n* ${e.name} ${e.surname} - ${e.title}: ${category.name}`;
+    }
+    staffMembers.map(a => {
+        if (a.reportsTo === e.slug) {
+            const category2 = categories.find(c => c.slug === a.category);
+            result += `\n\t* ${a.name} ${a.surname} - ${a.title}: ${category2.name}`;
+            staffMembers.map(d => {
+                if (d.reportsTo === a.slug) {
+                    const category3 = categories.find(c => c.slug === d.category);
+                    result += `\n\t\t* ${d.name} ${d.surname} - ${d.title}: ${category3.name}`;
+                }
+            });
+        }
+    });
+});
+
+console.info(result);
